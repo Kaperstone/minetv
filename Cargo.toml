@@ -1,0 +1,13 @@
+[package]
+name = "minetv"
+version = "0.1.0"
+authors = ["ZOTTCE <zottce@gmail.com>"]
+
+[lib]
+name = "watcher"
+crate-type = ["dylib"]
+
+[dependencies]
+winapi = "0.2"
+kernel32-sys = "*"
+user32-sys = "*"
