@@ -10,9 +10,9 @@ pub fn init_hooks(watcher: &Watcher) -> Hook<fn()> {
 	unsafe {
 		WATCHER_PTR = Some(watcher);
 		let game_start: fn() = mem::transmute(0x0100367A);
-        let hook = Hook::create(game_start, on_game_start_proxy).unwrap();
+		let hook = Hook::create(game_start, on_game_start_proxy).unwrap();
 
-        GAMESTART_ORIGIN = Some(hook.trampoline());
+		GAMESTART_ORIGIN = Some(hook.trampoline());
 		
 		hook
 	}

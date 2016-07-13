@@ -8,22 +8,22 @@ mod watcher;
 #[allow(non_snake_case, unused_variables)]
 #[no_mangle]
 pub extern "stdcall" fn DllMain(module: u32, reason_for_call: u32, reserved: u32) -> bool { 
-    match reason_for_call { 
-        1 => {
-            unsafe {
-                std::thread::spawn(move || {
-                    let watcher = watcher::Watcher::new();
-                    let hook = watcher::proxy::init_hooks(&watcher);
+	match reason_for_call { 
+		1 => {
+			unsafe {
+				std::thread::spawn(move || {
+					let watcher = watcher::Watcher::new();
+					let hook = watcher::proxy::init_hooks(&watcher);
 
-                    hook.enable();
+					hook.enable();
 
-                    loop {
+					loop {
 
-                    }
-                });
-            }
-        },
-        _ => ()
-    };
-    true
+					}
+				});
+			}
+		},
+		_ => ()
+	};
+	true
 }
