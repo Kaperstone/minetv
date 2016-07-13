@@ -6,9 +6,6 @@ extern crate minhook;
 
 mod mine;
 
-use std::mem::size_of;
-use minhook::Hook;
-
 fn main() {
 	if let Some(game) = mine::MineGame::new("Winmine__XP.exe") {
 		game.inject_dll("./target/debug/watcher.dll");
@@ -18,6 +15,6 @@ fn main() {
 
 		}
 	} else {
-		println!("canot run winemine!");
+		println!("cannot run winemine!");
 	}
 }
