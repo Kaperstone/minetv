@@ -7,7 +7,12 @@ authors = ["ZOTTCE <zottce@gmail.com>"]
 name = "watcher"
 crate-type = ["dylib"]
 
+[[bin]]
+name = "minetv"
+
 [dependencies]
-winapi = "0.2"
+winapi = "*"
 kernel32-sys = "*"
 user32-sys = "*"
+libc = "*"
+minhook = { git = "https://github.com/Jascha-N/minhook-rs" }
