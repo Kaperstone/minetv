@@ -16,3 +16,4 @@ kernel32-sys = "*"
 user32-sys = "*"
 libc = "*"
 minhook = { git = "https://github.com/Jascha-N/minhook-rs" }
+lazy_static = "*"

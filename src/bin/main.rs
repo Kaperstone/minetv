@@ -15,6 +15,6 @@ fn main() {
 
 		}
 	} else {
-		println!("cannot run winemine!");
+		println!("cannot run winmine!");
 	}
 }

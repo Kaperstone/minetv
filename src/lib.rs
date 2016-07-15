@@ -10,18 +10,14 @@ mod watcher;
 pub extern "stdcall" fn DllMain(module: u32, reason_for_call: u32, reserved: u32) -> bool { 
 	match reason_for_call { 
 		1 => {
-			unsafe {
-				std::thread::spawn(move || {
-					let watcher = watcher::Watcher::new();
-					let hook = watcher::proxy::init_hooks(&watcher);
+			std::thread::spawn(move || {
+				let watcher = watcher::Watcher::new();
+				watcher.enable();
 
-					hook.enable();
+				loop {
 
-					loop {
-
-					}
-				});
-			}
+				}
+			});
 		},
 		_ => ()
 	};
