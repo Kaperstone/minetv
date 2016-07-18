@@ -17,6 +17,9 @@ lazy_static! {
 	pub static ref display_cell: extern "stdcall" fn(u32, u32) = unsafe {
 		transmute(0x01002646)
 	};
+	pub static ref window_proc: extern "stdcall" fn(u32, u32, u32, u32) -> u32 = unsafe {
+		transmute(0x01001BC9)
+	};
 }
 
 pub fn get_field(without_bombs: bool) -> Vec<u8> {
@@ -60,5 +63,17 @@ pub fn set_field_size(height: u32, width: u32) {
 pub fn set_max_bomb_count(count: u32) {
 	unsafe {
 		write(0x010056A4 as _, count);
+	}
+}
+
+pub fn get_cell(x: u32, y: u32) -> u8 {
+	unsafe {
+		read((0x01005340 + x + y * 32) as _)
+	}
+}
+
+pub fn set_cell(x: u32, y: u32, value: u8) {
+	unsafe {
+		write((0x01005340 + x + y * 32) as _, value)
 	}
 }

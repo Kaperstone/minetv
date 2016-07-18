@@ -16,6 +16,7 @@ pub fn create_hooks() -> HashMap<&'static str, Hook<extern "stdcall" fn()>> {
 		hooks.insert("box_up", transmute(Hook::create(*game_api::push_box_up, on_push_box_up_proxy).unwrap()));
 		hooks.insert("box_down", transmute(Hook::create(*game_api::push_box_down, on_push_box_down_proxy).unwrap()));
 		hooks.insert("display_cell", transmute(Hook::create(*game_api::display_cell, on_display_cell_proxy).unwrap()));
+		hooks.insert("window_proc", transmute(Hook::create(*game_api::window_proc, on_window_proc_proxy).unwrap()));
 	}
 
 	hooks
@@ -58,5 +59,11 @@ extern "stdcall" fn on_push_box_down_proxy(x: u32, y: u32) {
 extern "stdcall" fn on_display_cell_proxy(x: u32, y: u32) {
 	unsafe {
 		(*EYE_PTR).on_display_cell(x, y);
+	}
+}
+
+extern "stdcall" fn on_window_proc_proxy(window: u32, message: u32, w_param: u32, l_param: u32) -> u32 {
+	unsafe {
+		(*EYE_PTR).on_window_proc(window, message, w_param, l_param)
 	}
 }

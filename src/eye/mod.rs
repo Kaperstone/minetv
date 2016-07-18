@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 use std::mem::transmute;
 use minhook::Hook;
+use winapi::winuser::WM_COMMAND;
 
 mod proxy;
 mod broadcast;
@@ -54,8 +55,7 @@ impl Eye {
 
 		if let Some(ref broadcast) = self.broadcast {
 			//
-			let cell_id = x + y * 32;
-			let cell = (0x01005340 + cell_id) as *mut u8;
+			let cell = game_api::get_cell(x, y);
 		}
 
 		unsafe {
@@ -76,5 +76,29 @@ impl Eye {
 			let origin_fn: extern "stdcall" fn(u32, u32) = transmute(self.hooks.get(&"box_down").unwrap().trampoline());
 			origin_fn(x, y);
 		}
+	}
+
+	pub fn on_window_proc(&self, window: u32, message: u32, w_param: u32, l_param: u32) -> u32 {
+		if message == WM_COMMAND {
+			match w_param as u16 {
+				7000 => show_message("watcher", "watch game"),
+				7001 => show_message("watcher", "start stream"),
+				_ => (),
+			};
+		}
+
+		unsafe {
+			let origin_fn: extern "stdcall" fn(u32, u32, u32, u32) -> u32 = transmute(self.hooks.get(&"window_proc").unwrap().trampoline());
+			origin_fn(window, message, w_param, l_param)
+		}
+	}
+}
+
+fn show_message(caption: &str, message: &str) {
+	let p_caption = caption.as_ptr() as *const i8;
+	let p_message = message.as_ptr() as *const i8;
+
+	unsafe {
+		::user32::MessageBoxA(::std::ptr::null_mut(), p_message, p_caption, 0);
 	}
 }
